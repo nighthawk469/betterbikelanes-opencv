@@ -137,7 +137,7 @@
           marker2 = new google.maps.Marker({
           map: map,
           draggable: true,
-          position: flightPlanCoordinates[3][0]
+          position: flightPlanCoordinates[1][0]
         });
 /*
         var bounds = new google.maps.LatLngBounds(
@@ -150,9 +150,9 @@
         google.maps.event.addListener(marker2, 'position_changed', update);
 
         poly = new google.maps.Polyline({
-          strokeColor: '#9932CC',
+          strokeColor: '#0000FF',
           strokeOpacity: 1,
-          strokeWeight: 3,
+          strokeWeight: 9,
           geodesic: true,
           //path: [flightPlanCoordinates[0][0], flightPlanCoordinates[1][0], flightPlanCoordinates[2][0]]
         });
@@ -160,18 +160,21 @@
         poly.setMap(map);
 
         poly1 = new google.maps.Polyline({
-          strokeColor: '#CC0099',
+          strokeColor: '#FF0000',
           strokeOpacity: 1,
-          strokeWeight: 3,
+          strokeWeight: 9,
           geodesic: true,
         });
 
-          poly1.setMap(map);
+
+
+        poly1.setMap(map);
+        poly1.setVisible(false);
 
         geodesicPoly = new google.maps.Polyline({
-          strokeColor: '#CC0099',
+          strokeColor: '#FF0000',
           strokeOpacity: 0,
-          strokeWeight: 3,
+          strokeWeight: 9,
           geodesic: true,
           map: map
         });
@@ -329,6 +332,15 @@
 
       function mouseUp() {
 
+      }
+
+
+      function changeRoute() {
+        console.log(poly1);
+        poly.set
+        poly1.setVisible(true);
+        poly.setOptions({strokeColor: 'red'});
+        poly1.setOptions({strokeColor: 'blue'});
       }
 
     </script>
