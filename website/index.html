@@ -93,33 +93,33 @@
         var flightPath1 = new google.maps.Polyline({
           path: flightPlanCoordinates[0],
           geodesic: true,
-          strokeColor: '#C0C0C0',
+          strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 3.5
         });
 
         var flightPath2 = new google.maps.Polyline({
           path: flightPlanCoordinates[1],
           geodesic: true,
-          strokeColor: '#C0C0C0',
+          strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 3.5
         });
 
         var flightPath3 = new google.maps.Polyline({
           path: flightPlanCoordinates[2],
           geodesic: true,
-          strokeColor: '#C0C0C0',
+          strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 3.5
         });
 
         var flightPath4 = new google.maps.Polyline({
           path: flightPlanCoordinates[3],
           geodesic: true,
-          strokeColor: '#C0C0C0',
+          strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 3.5
         });
 
 
@@ -295,12 +295,18 @@
            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
            path1 = [marker1.getPosition(), marker2.getPosition()];
          } else if  (destinationIndex - originIndex === -1) {
-           path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
+           path1 = [marker1.getPosition(), marker2.getPosition()];
+           path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
          }
 
-          else if (Math.abs(destinationIndex - originIndex) === 2) {
-            path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
-            path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], marker2.getPosition()];
+          else if (destinationIndex - originIndex === 2) {
+            path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
+            path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], marker2.getPosition()];
+
+          }else if (destinationIndex - originIndex === -2) {
+              path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
+              path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], marker2.getPosition()];
+
           } else if (destinationIndex - originIndex === 3) {
             path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
             path1 = [marker1.getPosition(),marker2.getPosition()];
@@ -315,14 +321,15 @@
           let path1Distance = google.maps.geometry.spherical.computeLength(poly1.getPath() );
 
           if ( pathDistance < path1Distance) {
-            totalDistance = google.maps.geometry.spherical.computeLength(poly.getPath());
+            totalDistance = pathDistance;
             //console.log('path');
               poly.setOptions({strokeColor: 'blue'});
-              
+              poly1.setOptions({strokeColors: 'red'});
           } else {
-            totalDistance = google.maps.geometry.spherical.computeLength(poly1.getPath());
+            totalDistance = path1Distance;
             //console.log('path1');
             poly1.setOptions({strokeColor: 'blue'});
+            poly.setOptions({strokeColor: 'red'});
           }
           document.getElementById('totalDistance').value = totalDistance;
 
@@ -346,7 +353,7 @@
 
       }
 
-
+/*
       function changeRoute() {
         console.log(poly);
         poly1.set
@@ -354,6 +361,7 @@
         poly1.setOptions({strokeColor: 'red'});
         poly.setOptions({strokeColor: 'blue'});
       }
+      */
 
 
 
