@@ -150,7 +150,7 @@
         google.maps.event.addListener(marker2, 'position_changed', update);
 
         poly = new google.maps.Polyline({
-          strokeColor: '#0000FF',
+          strokeColor: '#FF0000',
           strokeOpacity: 1,
           strokeWeight: 9,
           geodesic: true,
@@ -158,9 +158,10 @@
         });
 
         poly.setMap(map);
+        poly.setVisible(false);
 
         poly1 = new google.maps.Polyline({
-          strokeColor: '#FF0000',
+          strokeColor: '#0000FF',
           strokeOpacity: 1,
           strokeWeight: 9,
           geodesic: true,
@@ -169,7 +170,7 @@
 
 
         poly1.setMap(map);
-        poly1.setVisible(false);
+
 
         geodesicPoly = new google.maps.Polyline({
           strokeColor: '#FF0000',
@@ -291,7 +292,8 @@
           if (Math.abs(destinationIndex - originIndex) === 0) {
 
           } else if (destinationIndex - originIndex === 1) {
-           path1  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
+           path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
+           path1 = [marker1.getPosition(), marker2.getPosition()];
          } else if  (destinationIndex - originIndex === -1) {
            path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
          }
@@ -300,7 +302,7 @@
             path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
             path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], marker2.getPosition()];
           } else if (destinationIndex - originIndex === 3) {
-            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+2)%4][0], flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
+            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
             path1 = [marker1.getPosition(),marker2.getPosition()];
           } else if (destinationIndex - originIndex === -3) {
             path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
@@ -315,9 +317,12 @@
           if ( pathDistance < path1Distance) {
             totalDistance = google.maps.geometry.spherical.computeLength(poly.getPath());
             //console.log('path');
+              poly.setOptions({strokeColor: 'blue'});
+              
           } else {
             totalDistance = google.maps.geometry.spherical.computeLength(poly1.getPath());
             //console.log('path1');
+            poly1.setOptions({strokeColor: 'blue'});
           }
           document.getElementById('totalDistance').value = totalDistance;
 
@@ -343,12 +348,14 @@
 
 
       function changeRoute() {
-        console.log(poly1);
-        poly.set
-        poly1.setVisible(true);
-        poly.setOptions({strokeColor: 'red'});
-        poly1.setOptions({strokeColor: 'blue'});
+        console.log(poly);
+        poly1.set
+        poly.setVisible(true);
+        poly1.setOptions({strokeColor: 'red'});
+        poly.setOptions({strokeColor: 'blue'});
       }
+
+
 
     </script>
     <script async defer
