@@ -10,6 +10,14 @@
       #map {
         height: 100%;
       }
+
+
+      #start-pin {
+        height: 10%;
+        position: absolute;
+        left:40%;
+        bottom:50%;
+      }
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
@@ -19,8 +27,9 @@
     </style>
   </head>
   <body>
+
     <div id="map" onclick="clickFunction()"></div>
-    <img id='start-pin'></img>
+    <img id="start-pin" src='images/blue-pinpoint.png'></img>
     <script>
 
       let flightPlanCoordinates = [
