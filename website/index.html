@@ -348,6 +348,28 @@
         poly1.setVisible(true);
         poly.setOptions({strokeColor: 'red'});
         poly1.setOptions({strokeColor: 'blue'});
+
+        var image = {
+        //  url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+        url: 'images/closure.png',
+         // This marker is 20 pixels wide by 32 pixels high.
+         size: new google.maps.Size(68, 68),
+         // The origin for this image is (0, 0).
+         origin: new google.maps.Point(0, 0),
+         // The anchor for this image is the base of the flagpole at (0, 32).
+         anchor: new google.maps.Point(0, 32)
+       };
+
+
+        var beachMarker = new google.maps.Marker({
+          position: {lat: 43.65884438927273, lng: -79.39549926187135},
+          map: map,
+          icon: image
+        });
+      }
+
+      function addHazard(){
+
       }
 
     </script>
