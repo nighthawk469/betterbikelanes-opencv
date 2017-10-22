@@ -56,21 +56,24 @@
       var marker1, marker2;
       var poly, geodesicPoly;
 
-      let flightPlanCoordinates, markerOnePositionY, markerOnePositionX;
+      let flightPlanCoordinates, markerOnePositionY, markerOnePositionX, markerTwoPositionX, markerTwoPositionY;
+      let originIndex;
+      let destinationIndex;
+      let totalDistance;
 
       flightPlanCoordinates = [
-        [{lat: 37, lng: -122},
-        {lat: 21, lng: -157}],
+       [{lat: 43.657944, lng: -79.399941},
+       {lat: 43.659888, lng: -79.389941}],
 
-        [{lat: 21, lng: -157},
-        {lat: -18, lng: 178}],
+      [{lat: 43.659888, lng: -79.389941},
+       {lat: 43.654839, lng: -79.388192}],
 
-        [{lat: -18, lng: 178},
-        {lat: 20, lng: 100}],
+      [{lat: 43.654839, lng: -79.388192},
+       {lat: 43.65449755769597, lng: -79.39867499734498}],
 
-        [{lat: 20, lng: 100},
-        {lat: 37, lng: -122}]
-      ];
+      [{lat: 43.65449755769597, lng: -79.39867499734498},
+       {lat: 43.657944, lng: -79.399941}]
+     ];
 
     /*  function tog (lati, longi) {
         flightPlanCoordinates.push({lat: lati, lng: longi});
@@ -83,14 +86,14 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 20,
-          center: {lat: 37, lng: -122},
+          center: flightPlanCoordinates[0][0],
           mapTypeId: 'satellite'
         });
 
         var flightPath1 = new google.maps.Polyline({
           path: flightPlanCoordinates[0],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#C0C0C0',
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
@@ -106,7 +109,7 @@
         var flightPath3 = new google.maps.Polyline({
           path: flightPlanCoordinates[2],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#C0C0C0',
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
@@ -114,7 +117,7 @@
         var flightPath4 = new google.maps.Polyline({
           path: flightPlanCoordinates[3],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#C0C0C0',
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
@@ -128,20 +131,14 @@
         marker1 = new google.maps.Marker({
             map: map,
             draggable: true,
-            position: {lat: 37, lng: -122}
+            position: flightPlanCoordinates[0][0]
           });
 
           marker2 = new google.maps.Marker({
           map: map,
           draggable: true,
-          position: {lat: 48.857, lng: 2.352}
+          position: flightPlanCoordinates[3][0]
         });
-
-
-
-        let markerTwoPositionY = Number.parseFloat(marker2.getPosition().toString().substring(1,marker2.getPosition().toString().indexOf(".")));
-        let markerTwoPositionX = Number.parseFloat(marker2.getPosition().toString().substring(marker2.getPosition().toString().indexOf(" ")+1,marker2.getPosition().toString().lastIndexOf(".")));
-
 /*
         var bounds = new google.maps.LatLngBounds(
             marker1.getPosition(), marker2.getPosition());
@@ -153,11 +150,23 @@
         google.maps.event.addListener(marker2, 'position_changed', update);
 
         poly = new google.maps.Polyline({
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
+          strokeColor: '#9932CC',
+          strokeOpacity: 1,
           strokeWeight: 3,
-          map: map,
+          geodesic: true,
+          //path: [flightPlanCoordinates[0][0], flightPlanCoordinates[1][0], flightPlanCoordinates[2][0]]
         });
+
+        poly.setMap(map);
+
+        poly1 = new google.maps.Polyline({
+          strokeColor: '#CC0099',
+          strokeOpacity: 1,
+          strokeWeight: 3,
+          geodesic: true,
+        });
+
+          poly1.setMap(map);
 
         geodesicPoly = new google.maps.Polyline({
           strokeColor: '#CC0099',
@@ -218,28 +227,94 @@
 
       function update() {
         var path = [marker1.getPosition(), marker2.getPosition()];
-        poly.setPath(path);
-        geodesicPoly.setPath(path);
+        var path1 = [];
+        //geodesicPoly.setPath(path);
         var heading = google.maps.geometry.spherical.computeHeading(path[0], path[1]);
-        var totalDistance = google.maps.geometry.spherical.computeLength(poly.getPath());
-        document.getElementById('totalDistance').value = totalDistance;
+
         document.getElementById('origin').value = path[0].toString();
         document.getElementById('destination').value = path[1].toString();
         //var distance = google.maps.geometry.spherical.computeDistanceBetween(path[0],path[1]);
 
+
+
+
         markerOnePositionX = Number.parseFloat(marker1.getPosition().toString().substring(marker1.getPosition().toString().indexOf(" ")+1,marker1.getPosition().toString().indexOf(")") ) );
         markerOnePositionY = Number.parseFloat(marker1.getPosition().toString().substring(1,marker1.getPosition().toString().indexOf(",")));
+        markerTwoPositionX = Number.parseFloat(marker2.getPosition().toString().substring(marker2.getPosition().toString().indexOf(" ")+1,marker2.getPosition().toString().indexOf(")") ) );
+        markerTwoPositionY = Number.parseFloat(marker2.getPosition().toString().substring(1,marker2.getPosition().toString().indexOf(",")));
 
+        let destinationInCircle = false;
+        flightPlanCoordinates.forEach(function(wololo) {
+          if( (Math.pow(wololo[0].lng - markerTwoPositionX,2) + Math.pow(wololo[0].lat - markerTwoPositionY,2) )  < 0.00000001) {
 
+            markerTwoPositionX = wololo[0].lng;
+            markerTwoPositionY = wololo[0].lat;
+            //console.log('in');
+            destinationInCircle = true;
+          }
+        });
+
+        let originInCircle = false;
         flightPlanCoordinates.forEach(function(element) {
           if( (Math.pow(element[0].lng - markerOnePositionX,2) + Math.pow(element[0].lat - markerOnePositionY,2) )  < 0.00000001) {
 
-            //marker1.position = {lat: element[0].lat, lng: element[0].lng};
+            markerOnePositionX = element[0].lng;
+            markerOnePositionY = element[0].lat;
             //console.log('in');
+            originInCircle = true;
           }
         });
         //console.log(markerOnePositionX);
         //console.log(markerOnePositionY);
+
+        if (originInCircle && destinationInCircle) {
+          //console.log('Both in!');
+          if( (Math.pow(markerTwoPositionX - markerOnePositionX,2) + Math.pow(markerTwoPositionY - markerOnePositionY,2) )  < 0.00000001) {
+
+          }
+
+          for (let i = 0; i < 4; i++) {
+            if (flightPlanCoordinates[i][0].lng === markerOnePositionX && flightPlanCoordinates[i][0].lat === markerOnePositionY) {
+              originIndex = i;
+            }
+            if (flightPlanCoordinates[i][0].lng === markerTwoPositionX && flightPlanCoordinates[i][0].lat === markerTwoPositionY) {
+              destinationIndex = i;
+            }
+          }
+
+        //  console.log(destinationIndex);
+          //console.log(originIndex);
+
+          if (Math.abs(destinationIndex - originIndex) === 0) {
+
+          } else if (Math.abs(destinationIndex - originIndex) === 1) {
+           path1  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
+          } else if (Math.abs(destinationIndex - originIndex) === 2) {
+            path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
+            path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], marker2.getPosition()];
+          } else if (Math.abs(destinationIndex - originIndex) === 3) {
+            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%3][0], marker2.getPosition()];
+            path1 = [marker1.getPosition(),marker2.getPosition()];
+          }
+
+          poly.setPath(path);
+          poly1.setPath(path1);
+          let pathDistance = google.maps.geometry.spherical.computeLength(poly.getPath());
+          let path1Distance = google.maps.geometry.spherical.computeLength(poly1.getPath() );
+
+          if ( pathDistance < path1Distance) {
+            totalDistance = google.maps.geometry.spherical.computeLength(poly.getPath());
+            //console.log('path');
+          } else {
+            totalDistance = google.maps.geometry.spherical.computeLength(poly1.getPath());
+            //console.log('path1');
+          }
+          document.getElementById('totalDistance').value = totalDistance;
+
+
+        }
+
+
       }
 
 
