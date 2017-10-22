@@ -49,7 +49,6 @@
     </div>
 
     <div id="map" onmousedown="mouseDown()" onmouseup="mouseUp()"></div>
-    <img id="start-pin" src='images/blue-pinpoint.png'></img>
     <script>
 
       var marker1, marker2;
@@ -135,6 +134,16 @@
           position: {lat: 48.857, lng: 2.352}
         });
 
+        let markerOnePositionX = Number.parseFloat(marker1.getPosition().toString().substring(1,marker1.getPosition().toString().indexOf(".")));
+        let markerOnePositionY = Number.parseFloat(marker1.getPosition().toString().substring(marker1.getPosition().toString().indexOf(" ")+1,marker1.getPosition().toString().lastIndexOf(".")));
+
+        let markerTwoPositionX = Number.parseFloat(marker2.getPosition().toString().substring(1,marker2.getPosition().toString().indexOf(".")));
+        let markerTwoPositionY = Number.parseFloat(marker2.getPosition().toString().substring(marker2.getPosition().toString().indexOf(" ")+1,marker2.getPosition().toString().lastIndexOf(".")));
+
+        flightPlanCoordinates.forEach(function(element) {
+          
+        });
+
         var bounds = new google.maps.LatLngBounds(
             marker1.getPosition(), marker2.getPosition());
         map.fitBounds(bounds);
@@ -157,10 +166,7 @@
           map: map
         });
 
-
         update();
-
-
 
       }
 
@@ -174,19 +180,16 @@
         document.getElementById('origin').value = path[0].toString();
         document.getElementById('destination').value = path[1].toString();
         //var distance = google.maps.geometry.spherical.computeDistanceBetween(path[0],path[1]);
-
-
-
-
       }
 
 
       function mouseDown() {
+        /*
         var e = window.event;
         var initialX = e.clientX;
         var initialY = e.clientY;
         console.log(initialX, initialY);
-
+        */
       }
 
       function mouseUp() {
