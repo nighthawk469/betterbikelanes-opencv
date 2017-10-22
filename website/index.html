@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" onclick="clickFunction()"></div>
+    <img id='start-pin'></img>
+    <script>
+
+      let flightPlanCoordinates = [
+        [{lat: 37, lng: -122},
+        {lat: 21, lng: -157}],
+
+        [{lat: 21, lng: -157},
+        {lat: -18, lng: 178}],
+
+        [{lat: -18, lng: 178},
+        {lat: 20, lng: 100}],
+
+        [{lat: 20, lng: 100},
+        {lat: 37, lng: -122}]
+      ];
+
+    /*  function tog (lati, longi) {
+        flightPlanCoordinates.push({lat: lati, lng: longi});
+      }
+
+      tog(30,0);
+      */
+
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: 0, lng: -180},
+          mapTypeId: 'satellite'
+        });
+
+
+        var flightPath1 = new google.maps.Polyline({
+          path: flightPlanCoordinates[0],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        var flightPath2 = new google.maps.Polyline({
+          path: flightPlanCoordinates[1],
+          geodesic: true,
+          strokeColor: '#C0C0C0',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        var flightPath3 = new google.maps.Polyline({
+          path: flightPlanCoordinates[2],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        var flightPath4 = new google.maps.Polyline({
+          path: flightPlanCoordinates[3],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath1.setMap(map);
+        flightPath2.setMap(map);
+        flightPath3.setMap(map);
+        flightPath4.setMap(map);
+      }
+
+
+      function clickFunction() {
+        var e = window.event;
+        var posX = e.clientX;
+        var posY = e.clientY;
+        console.log(posX, posY);
+        console.log(map.zoom);
+      }
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD90ygPBLrS0S848TdO5yKZN2C3oF5XBdo&callback=initMap">
+    </script>
+  </body>
+</html>
