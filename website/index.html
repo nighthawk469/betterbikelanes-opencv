@@ -290,13 +290,20 @@
 
           if (Math.abs(destinationIndex - originIndex) === 0) {
 
-          } else if (Math.abs(destinationIndex - originIndex) === 1) {
+          } else if (destinationIndex - originIndex === 1) {
            path1  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
-          } else if (Math.abs(destinationIndex - originIndex) === 2) {
+         } else if  (destinationIndex - originIndex === -1) {
+           path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
+         }
+
+          else if (Math.abs(destinationIndex - originIndex) === 2) {
             path = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
             path1 = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], marker2.getPosition()];
-          } else if (Math.abs(destinationIndex - originIndex) === 3) {
-            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+1)%4][0], flightPlanCoordinates[(originIndex+2)%3][0], marker2.getPosition()];
+          } else if (destinationIndex - originIndex === 3) {
+            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+2)%4][0], flightPlanCoordinates[(originIndex+1)%4][0], marker2.getPosition()];
+            path1 = [marker1.getPosition(),marker2.getPosition()];
+          } else if (destinationIndex - originIndex === -3) {
+            path  = [marker1.getPosition(), flightPlanCoordinates[(originIndex+3)%4][0], flightPlanCoordinates[(originIndex+2)%4][0], marker2.getPosition()];
             path1 = [marker1.getPosition(),marker2.getPosition()];
           }
 
