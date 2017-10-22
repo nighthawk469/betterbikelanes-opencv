@@ -90,34 +90,34 @@
           mapTypeId: 'satellite'
         });
 
-        var flightPath1 = new google.maps.Polyline({
+        flightPath1 = new google.maps.Polyline({
           path: flightPlanCoordinates[0],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#A9A9A9',
           strokeOpacity: 1.0,
           strokeWeight: 3.5
         });
 
-        var flightPath2 = new google.maps.Polyline({
+        flightPath2 = new google.maps.Polyline({
           path: flightPlanCoordinates[1],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#A9A9A9',
           strokeOpacity: 1.0,
           strokeWeight: 3.5
         });
 
-        var flightPath3 = new google.maps.Polyline({
+        flightPath3 = new google.maps.Polyline({
           path: flightPlanCoordinates[2],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#A9A9A9',
           strokeOpacity: 1.0,
           strokeWeight: 3.5
         });
 
-        var flightPath4 = new google.maps.Polyline({
+        flightPath4 = new google.maps.Polyline({
           path: flightPlanCoordinates[3],
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#A9A9A9',
           strokeOpacity: 1.0,
           strokeWeight: 3.5
         });
@@ -353,13 +353,18 @@
 
       }
 
-/*
+
       function changeRoute() {
         console.log(poly1);
         poly.set
         poly1.setVisible(true);
-        poly.setOptions({strokeColor: 'red'});
-        poly1.setOptions({strokeColor: 'blue'});
+        // poly.setOptions({strokeColor: 'red'});
+        // poly1.setOptions({strokeColor: 'blue'});
+
+        flightPath1.setOptions({strokeColor: 'red'});
+        flightPath2.setOptions({strokeColor: 'red'});
+        flightPath3.setOptions({strokeColor: 'red'});
+        flightPath4.setOptions({strokeColor: 'red'});
 
         var image = {
         //  url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
@@ -389,7 +394,7 @@
       function addHazard(){
 
       }
-      */
+
 
 
 
