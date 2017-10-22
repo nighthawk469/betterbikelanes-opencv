@@ -45,10 +45,10 @@
     <div id="floating-panel">
       Origin: <input type="text" readonly id="origin">
       Destination: <input type="text" readonly id="destination"><br>
-      Heading: <input type="text" readonly id="heading"> degrees
+      Distance: <input type="text" readonly id="totalDistance"> Meters
     </div>
 
-    <div id="map" onmousedown="mouseDown()" onmouseup="mouseUp();"></div>
+    <div id="map" onmousedown="mouseDown()" onmouseup="mouseUp()"></div>
     <img id="start-pin" src='images/blue-pinpoint.png'></img>
     <script>
 
@@ -157,7 +157,10 @@
           map: map
         });
 
+
         update();
+
+
 
       }
 
@@ -166,9 +169,15 @@
         poly.setPath(path);
         geodesicPoly.setPath(path);
         var heading = google.maps.geometry.spherical.computeHeading(path[0], path[1]);
-        document.getElementById('heading').value = heading;
+        var totalDistance = google.maps.geometry.spherical.computeLength(poly.getPath());
+        document.getElementById('totalDistance').value = totalDistance;
         document.getElementById('origin').value = path[0].toString();
         document.getElementById('destination').value = path[1].toString();
+        //var distance = google.maps.geometry.spherical.computeDistanceBetween(path[0],path[1]);
+
+
+
+
       }
 
 
