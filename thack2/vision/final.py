@@ -36,6 +36,7 @@ while 1:
                 roi_gray = gray[y:y+h, x:x+w]
                 roi_color = img[y:y+h, x:x+w]
                 print ("there is car in bike lane")
+                requests.post("https://bike-thing-server.herokuapp.com/hazard");
             if mid_in <= left_th:
                 pass
                 #print ("there is car to the left of bike lane")
