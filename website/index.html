@@ -42,19 +42,23 @@
   </head>
   <body>
 
+
+    <div id="map" onmousedown="mouseDown()" onmouseup="mouseUp()"></div>
     <div id="floating-panel">
       Origin: <input type="text" readonly id="origin">
       Destination: <input type="text" readonly id="destination"><br>
       Distance: <input type="text" readonly id="totalDistance"> Meters
     </div>
 
-    <div id="map" onmousedown="mouseDown()" onmouseup="mouseUp()"></div>
+
     <script>
 
       var marker1, marker2;
       var poly, geodesicPoly;
 
-      let flightPlanCoordinates = [
+      let flightPlanCoordinates, markerOnePositionY, markerOnePositionX;
+
+      flightPlanCoordinates = [
         [{lat: 37, lng: -122},
         {lat: 21, lng: -157}],
 
@@ -78,11 +82,10 @@
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 3,
-          center: {lat: 0, lng: -180},
+          zoom: 20,
+          center: {lat: 37, lng: -122},
           mapTypeId: 'satellite'
         });
-
 
         var flightPath1 = new google.maps.Polyline({
           path: flightPlanCoordinates[0],
@@ -125,7 +128,7 @@
         marker1 = new google.maps.Marker({
             map: map,
             draggable: true,
-            position: {lat: 40.714, lng: -74.006}
+            position: {lat: 37, lng: -122}
           });
 
           marker2 = new google.maps.Marker({
@@ -134,19 +137,17 @@
           position: {lat: 48.857, lng: 2.352}
         });
 
-        let markerOnePositionX = Number.parseFloat(marker1.getPosition().toString().substring(1,marker1.getPosition().toString().indexOf(".")));
-        let markerOnePositionY = Number.parseFloat(marker1.getPosition().toString().substring(marker1.getPosition().toString().indexOf(" ")+1,marker1.getPosition().toString().lastIndexOf(".")));
 
-        let markerTwoPositionX = Number.parseFloat(marker2.getPosition().toString().substring(1,marker2.getPosition().toString().indexOf(".")));
-        let markerTwoPositionY = Number.parseFloat(marker2.getPosition().toString().substring(marker2.getPosition().toString().indexOf(" ")+1,marker2.getPosition().toString().lastIndexOf(".")));
 
-        flightPlanCoordinates.forEach(function(element) {
-          
-        });
+        let markerTwoPositionY = Number.parseFloat(marker2.getPosition().toString().substring(1,marker2.getPosition().toString().indexOf(".")));
+        let markerTwoPositionX = Number.parseFloat(marker2.getPosition().toString().substring(marker2.getPosition().toString().indexOf(" ")+1,marker2.getPosition().toString().lastIndexOf(".")));
 
+/*
         var bounds = new google.maps.LatLngBounds(
             marker1.getPosition(), marker2.getPosition());
         map.fitBounds(bounds);
+
+        */
 
         google.maps.event.addListener(marker1, 'position_changed', update);
         google.maps.event.addListener(marker2, 'position_changed', update);
@@ -166,6 +167,51 @@
           map: map
         });
 
+
+        var cityCircle1 = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: flightPlanCoordinates[0][0],
+            radius: 10
+          });
+
+          var cityCircle2 = new google.maps.Circle({
+              strokeColor: '#FF0000',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#FF0000',
+              fillOpacity: 0.35,
+              map: map,
+              center: flightPlanCoordinates[1][0],
+              radius: 10
+            });
+
+            var cityCircle3 = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center: flightPlanCoordinates[2][0],
+                radius: 10
+              });
+
+              var cityCircle4 = new google.maps.Circle({
+                  strokeColor: '#FF0000',
+                  strokeOpacity: 0.8,
+                  strokeWeight: 2,
+                  fillColor: '#FF0000',
+                  fillOpacity: 0.35,
+                  map: map,
+                  center: flightPlanCoordinates[3][0],
+                  radius: 10
+                });
+
         update();
 
       }
@@ -180,6 +226,20 @@
         document.getElementById('origin').value = path[0].toString();
         document.getElementById('destination').value = path[1].toString();
         //var distance = google.maps.geometry.spherical.computeDistanceBetween(path[0],path[1]);
+
+        markerOnePositionX = Number.parseFloat(marker1.getPosition().toString().substring(marker1.getPosition().toString().indexOf(" ")+1,marker1.getPosition().toString().indexOf(")") ) );
+        markerOnePositionY = Number.parseFloat(marker1.getPosition().toString().substring(1,marker1.getPosition().toString().indexOf(",")));
+
+
+        flightPlanCoordinates.forEach(function(element) {
+          if( (Math.pow(element[0].lng - markerOnePositionX,2) + Math.pow(element[0].lat - markerOnePositionY,2) )  < 0.00000001) {
+
+            //marker1.position = {lat: element[0].lat, lng: element[0].lng};
+            //console.log('in');
+          }
+        });
+        //console.log(markerOnePositionX);
+        //console.log(markerOnePositionY);
       }
 
 
