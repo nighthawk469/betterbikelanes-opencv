@@ -75,6 +75,20 @@
        {lat: 43.657944, lng: -79.399941}]
      ];
 
+
+     secondRouteCoords = [
+       {lat: 43.65793754199875, lng: -79.40008047486879},
+       {lat: 43.65648471974685, lng: -79.4077194061432}
+     ];
+
+
+      secondRouteTrafficCoords = [
+        {lat: 43.65793754199875, lng: -79.40008047486879},
+        {lat: 43.65675770100821, lng: -79.39954403306581},
+        {lat: 43.65520524333251, lng: -79.4072151508484},
+        {lat: 43.656469195298186, lng: -79.40773013497926}
+      ];
+
     /*  function tog (lati, longi) {
         flightPlanCoordinates.push({lat: lati, lng: longi});
       }
@@ -167,9 +181,9 @@
           geodesic: true,
         });
 
-
-
         poly1.setMap(map);
+
+
 
 
         geodesicPoly = new google.maps.Polyline({
@@ -391,7 +405,35 @@
         poly.setOptions({strokeColor: 'blue'});
       }
 
-      function addTraffic(){
+
+      function showSecondRoute(){
+        secondPoly = new google.maps.Polyline({
+          path: secondRouteCoords,
+          strokeColor: '#0000FF',
+          strokeOpacity: 1,
+          strokeWeight: 9,
+          geodesic: true,
+        });
+
+        secondPoly.setMap(map);
+
+        poly1.setVisible(false);
+      }
+
+
+      function showSecondRouteTraffic(){
+        secondTrafficPoly = new google.maps.Polyline({
+          path: secondRouteTrafficCoords,
+          strokeColor: '#0000FF',
+          strokeOpacity: 1,
+          strokeWeight: 9,
+          geodesic: true,
+        });
+
+        secondTrafficPoly.setMap(map);
+
+        secondPoly.setOptions({strokeColor: 'red'});
+        
 
       }
 
